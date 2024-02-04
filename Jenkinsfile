@@ -35,7 +35,7 @@ pipeline {
                         sh "docker rm -f My-first-containe1"
                         //chnage the private ip in below code
                         // sh "docker run -itd --name My-first-containe211 -p 8082:80 $JOB_NAME:v1.BUILD_ID"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@54.167.179.238 ${dockerCmd}"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@3.84.173.124 ${dockerCmd}"
                     }
                 }
             }
