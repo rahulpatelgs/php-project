@@ -19,7 +19,7 @@ pipeline {
         }
           stage('Docker login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh 'docker push rahulpatel123/$JOB_NAME:v1.$BUILD_ID'
                     sh 'docker push rahulpatel123/$JOB_NAME:latest'
@@ -30,12 +30,12 @@ pipeline {
      stage('Deploy') {
             steps {
                script {
-                    def dockerCmd = 'sudo docker run -itd --name My-first-containe-1 -p 8085:80 rahulpatel123/$JOB_NAME:v1.$BUILD_ID'
-                    sshagent(['ssh-keypair-php']) {
+                    def dockerCmd = 'sudo docker run -itd --name My-first-containe-1 -p 8080:80 rahulpatel123/$JOB_NAME:v1.$BUILD_ID'
+                    sshagent(['sshkeypair']) {
                         //sh "sudo docker rm -f My-first-containe33"
                         //chnage the private ip in below code
                         // sh "docker run -itd --name My-first-containe211 -p 8082:80 $JOB_NAME:v1.BUILD_ID"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@54.167.179.238 ${dockerCmd}"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@54.176.201.229 ${dockerCmd}"
                     }
                 }
             }
